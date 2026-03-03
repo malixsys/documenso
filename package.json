@@ -41,7 +41,6 @@
     "translate:extract": "lingui extract --clean",
     "translate:compile": "lingui compile"
   },
-  "packageManager": "npm@10.7.0",
   "engines": {
     "npm": ">=10.7.0",
     "node": ">=22.0.0"
