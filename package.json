@@ -8,7 +8,7 @@
   "version": "2.7.0",
   "scripts": {
     "postinstall": "patch-package",
-    "build": "turbo run build",
+    "build": "turbo run build --filter=@documenso/remix",
     "dev": "turbo run dev --filter=@documenso/remix",
     "dev:remix": "turbo run dev --filter=@documenso/remix",
     "dev:docs": "turbo run dev --filter=@documenso/documentation",
@@ -97,6 +97,10 @@
     "react": "^18",
     "typescript": "5.6.2",
     "zod": "^3.25.76"
+  },
+  "resolutions": {
+    "@types/react": "18.3.27",
+    "@types/react-dom": "18.3.7"
   },
   "overrides": {
     "lodash": "4.17.23",

@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "buildCommand": "turbo run build --filter=@documenso/remix",
+  "installCommand": "npm install",
+  "builds": [
+    {
+      "src": "apps/remix/build/server/vercel.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "headers": { "Cache-Control": "public, immutable, max-age=31536000" },
+      "dest": "/apps/remix/build/client/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|map|webp|avif))",
+      "headers": { "Cache-Control": "public, max-age=0, stale-while-revalidate=86400" },
+      "dest": "/apps/remix/build/client/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/remix/build/server/vercel.js"
+    }
+  ]
+}

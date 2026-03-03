@@ -25,8 +25,9 @@ npm run build:app
 echo "[Build]: Building server"
 npm run build:server
 
-# Copy over the entry point for the server.
+# Copy over the entry points for the server.
 cp server/main.js build/server/main.js
+cp server/vercel.js build/server/vercel.js
 
 # Copy over all web.js translations
 cp -r ../../packages/lib/translations build/server/hono/packages/lib/translations
