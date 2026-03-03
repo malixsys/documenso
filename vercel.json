@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "turbo run build --filter=@documenso/remix --output-logs=errors-only && echo '=== VERCEL DEBUG ===' && node --version && ls -la api/ && ls -la apps/remix/build/server/vercel.js && du -sh apps/remix/build/server/ && mkdir -p public && cp -r apps/remix/build/client/. public/ && echo '=== BUILD COMPLETE ==='",
+  "buildCommand": "bash scripts/vercel-build.sh",
   "outputDirectory": "public",
   "functions": {
     "api/index.js": {
