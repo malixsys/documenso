@@ -1,1 +1,1 @@
-export { default } from '../apps/remix/build/server/vercel.js';
+export { default } from '../.vercel-server/vercel.js';

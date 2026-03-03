@@ -1,7 +1,6 @@
 import { lingui } from '@lingui/vite-plugin';
 import { reactRouter } from '@react-router/dev/vite';
 import autoprefixer from 'autoprefixer';
-import serverAdapter from 'hono-react-router-adapter/vite';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import tailwindcss from 'tailwindcss';
@@ -21,11 +20,37 @@ const cMapsDir = normalizePath(path.join(pdfjsDistPath, 'cmaps'));
  *
  * Do not configure any envs here.
  */
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
     },
+  },
+  build: {
+    rollupOptions: isSsrBuild
+      ? {
+          input: './server/app.ts',
+          external: [
+            '@napi-rs/canvas',
+            '@node-rs/bcrypt',
+            '@aws-sdk/cloudfront-signer',
+            'nodemailer',
+            /playwright/,
+            '@playwright/browser-chromium',
+            'skia-canvas',
+          ],
+        }
+      : {
+          external: [
+            '@napi-rs/canvas',
+            '@node-rs/bcrypt',
+            '@aws-sdk/cloudfront-signer',
+            'nodemailer',
+            /playwright/,
+            '@playwright/browser-chromium',
+            'skia-canvas',
+          ],
+        },
   },
   server: {
     port: parseInt(process.env.PORT || '3000', 10),
@@ -44,9 +69,6 @@ export default defineConfig({
     macrosPlugin(),
     lingui(),
     tsconfigPaths(),
-    serverAdapter({
-      entry: 'server/router.ts',
-    }),
   ],
   ssr: {
     noExternal: ['react-dropzone', 'plausible-tracker'],
@@ -76,6 +98,8 @@ export default defineConfig({
   resolve: {
     alias: {
       https: 'node:https',
+      react: path.resolve(__dirname, '../../node_modules/react'),
+      'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
       '.prisma/client/default': path.resolve(
         __dirname,
         '../../node_modules/.prisma/client/default.js',
@@ -87,22 +111,4 @@ export default defineConfig({
       canvas: path.resolve(__dirname, './app/types/empty-module.ts'),
     },
   },
-  /**
-   * Note: Re run rollup again to build the server afterwards.
-   *
-   * See rollup.config.mjs which is used for that.
-   */
-  build: {
-    rollupOptions: {
-      external: [
-        '@napi-rs/canvas',
-        '@node-rs/bcrypt',
-        '@aws-sdk/cloudfront-signer',
-        'nodemailer',
-        /playwright/,
-        '@playwright/browser-chromium',
-        'skia-canvas',
-      ],
-    },
-  },
-});
+}));

@@ -22,15 +22,11 @@ npm run translate --prefix ../../
 echo "[Build]: Building app"
 npm run build:app
 
-echo "[Build]: Building server"
-npm run build:server
-
-# Copy over the entry points for the server.
-cp server/main.js build/server/main.js
-cp server/vercel.js build/server/vercel.js
-
-# Copy over all web.js translations
-cp -r ../../packages/lib/translations build/server/hono/packages/lib/translations
+# Copy over all web.js translations into the server build
+if [ -d "build/server" ]; then
+  mkdir -p build/server/packages/lib/translations
+  cp -r ../../packages/lib/translations/. build/server/packages/lib/translations/
+fi
 
 # Time taken
 end_time=$(date +%s)
