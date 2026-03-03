@@ -1,7 +1,7 @@
 {
   "version": 2,
   "buildCommand": "turbo run build --filter=@documenso/remix",
-  "installCommand": "npm install",
+  "installCommand": "yarn install",
   "builds": [
     {
       "src": "apps/remix/build/server/vercel.js",
