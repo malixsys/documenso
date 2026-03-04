@@ -35,6 +35,7 @@ export default defineConfig(({ isSsrBuild }) => ({
             '@node-rs/bcrypt',
             '@aws-sdk/cloudfront-signer',
             'nodemailer',
+            'sharp',
             /playwright/,
             '@playwright/browser-chromium',
             'skia-canvas',
@@ -73,10 +74,14 @@ export default defineConfig(({ isSsrBuild }) => ({
   ssr: {
     noExternal: true,
     external: [
+      'react',
+      'react-dom',
+      'react-router',
       '@napi-rs/canvas',
       '@node-rs/bcrypt',
       '@prisma/client',
       '@documenso/tailwind-config',
+      'sharp',
       'playwright',
       'playwright-core',
       '@playwright/browser-chromium',
@@ -98,8 +103,15 @@ export default defineConfig(({ isSsrBuild }) => ({
   resolve: {
     alias: {
       https: 'node:https',
-      react: path.resolve(__dirname, '../../node_modules/react'),
-      'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
+      // Only alias react/react-dom for client builds. For SSR builds, they are
+      // externalized via ssr.external and must remain bare specifiers so Vite
+      // doesn't resolve them to absolute paths (which bypasses externalization).
+      ...(isSsrBuild
+        ? {}
+        : {
+            react: path.resolve(__dirname, '../../node_modules/react'),
+            'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
+          }),
       '.prisma/client/default': path.resolve(
         __dirname,
         '../../node_modules/.prisma/client/default.js',
