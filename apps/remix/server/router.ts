@@ -125,17 +125,21 @@ app.use(`/api/v2-beta/*`, async (c) =>
 // Start telemetry client for anonymous usage tracking.
 // Can be disabled by setting DOCUMENSO_DISABLE_TELEMETRY=true
 if (env('NODE_ENV') !== 'development') {
-  void TelemetryClient.start();
+  void TelemetryClient.start().catch((err) => console.error('[STARTUP] Telemetry failed:', err));
 }
 
 // Start license client to verify license on startup.
-void LicenseClient.start();
+void LicenseClient.start().catch((err) => console.error('[STARTUP] License client failed:', err));
 
 // Start cron scheduler for background jobs (e.g. envelope expiration sweep).
 // No-op for Inngest provider which handles cron externally.
 jobsClient.startCron();
 
-void migrateDeletedAccountServiceAccount();
-void migrateLegacyServiceAccount();
+void migrateDeletedAccountServiceAccount().catch((err) =>
+  console.error('[STARTUP] Migrate deleted account failed:', err),
+);
+void migrateLegacyServiceAccount().catch((err) =>
+  console.error('[STARTUP] Migrate legacy account failed:', err),
+);
 
 export default app;

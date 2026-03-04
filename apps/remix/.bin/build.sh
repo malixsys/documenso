@@ -17,10 +17,10 @@ cd "$WEB_APP_DIR"
 start_time=$(date +%s)
 
 echo "[Build]: Extracting and compiling translations"
-npm run translate --prefix ../../
+cd ../../ && yarn translate && cd "$WEB_APP_DIR"
 
 echo "[Build]: Building app"
-npm run build:app
+yarn build:app
 
 # Copy over all web.js translations into the server build
 if [ -d "build/server" ]; then

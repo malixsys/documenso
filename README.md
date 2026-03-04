@@ -282,6 +282,47 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
+### Vercel
+
+1. Fork this repository and connect it to your Vercel project.
+
+2. In **Project Settings > General**, configure:
+
+   | Setting | Value |
+   |---|---|
+   | **Framework** | React Router |
+   | **Root Directory** | `apps/remix` |
+   | **Build Command** (Override ON) | `yarn build:vercel` |
+   | **Install Command** | *(leave default)* |
+   | **Node.js Version** | 22.x |
+
+3. Add the required environment variables in **Project Settings > Environment Variables**:
+
+   - `NEXTAUTH_SECRET`
+   - `NEXT_PUBLIC_WEBAPP_URL` (your Vercel deployment URL, e.g. `https://your-app.vercel.app`)
+   - `NEXT_PRIVATE_DATABASE_URL` (Postgres connection string with pooling)
+   - `NEXT_PRIVATE_DIRECT_DATABASE_URL` (Postgres direct connection string)
+   - `NEXT_PRIVATE_SMTP_FROM_NAME`
+   - `NEXT_PRIVATE_SMTP_FROM_ADDRESS`
+   - `NEXT_PRIVATE_SMTP_HOST`
+   - `NEXT_PRIVATE_SMTP_PORT`
+   - `NEXT_PRIVATE_SMTP_USERNAME`
+   - `NEXT_PRIVATE_SMTP_PASSWORD`
+   - `NEXT_PRIVATE_SIGNING_LOCAL_FILE_CONTENTS` (base64-encoded signing certificate)
+
+4. Deploy. The `build:vercel` script runs prisma generate, lingui translations, and the React Router build without Turborepo.
+
+#### Syncing with upstream
+
+```bash
+# One-time setup
+git remote add upstream https://github.com/documenso/documenso.git
+
+# When you want to sync
+git fetch upstream
+git merge upstream/main
+```
+
 ### Railway
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/bG6D4p)

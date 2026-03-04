@@ -71,7 +71,7 @@ export default defineConfig(({ isSsrBuild }) => ({
     tsconfigPaths(),
   ],
   ssr: {
-    noExternal: ['react-dropzone', 'plausible-tracker'],
+    noExternal: true,
     external: [
       '@napi-rs/canvas',
       '@node-rs/bcrypt',
