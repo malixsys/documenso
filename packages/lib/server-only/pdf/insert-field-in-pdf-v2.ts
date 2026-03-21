@@ -8,6 +8,8 @@ import { FontLibrary } from 'skia-canvas';
 
 import type { FieldWithSignature } from '@documenso/prisma/types/field-with-signature';
 
+import { getFontPath } from './get-font-path';
+
 import { renderField } from '../../universal/field-renderer/render-field';
 
 type InsertFieldInPDFV2Options = {
@@ -21,7 +23,13 @@ export const insertFieldInPDFV2 = async ({
   pageHeight,
   fields,
 }: InsertFieldInPDFV2Options) => {
-  const fontPath = path.join(process.cwd(), 'public/fonts');
+  const fontPath = await getFontPath([
+    'caveat.ttf',
+    'noto-sans.ttf',
+    'noto-sans-japanese.ttf',
+    'noto-sans-chinese.ttf',
+    'noto-sans-korean.ttf',
+  ]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   FontLibrary.use({

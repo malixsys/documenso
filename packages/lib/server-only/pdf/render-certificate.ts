@@ -6,7 +6,6 @@ import type { RecipientRole } from '@prisma/client';
 import Konva from 'konva';
 import 'konva/skia-backend';
 import { DateTime } from 'luxon';
-import fs from 'node:fs';
 import path from 'node:path';
 import type { Canvas } from 'skia-canvas';
 import { FontLibrary } from 'skia-canvas';
@@ -15,6 +14,7 @@ import { UAParser } from 'ua-parser-js';
 import { renderSVG } from 'uqr';
 
 import { NEXT_PUBLIC_WEBAPP_URL } from '../../constants/app';
+import { getFontPath } from './get-font-path';
 import { APP_I18N_OPTIONS } from '../../constants/i18n';
 import {
   RECIPIENT_ROLES_DESCRIPTION,
@@ -724,7 +724,7 @@ export async function renderCertificate({
   pageWidth,
   pageHeight,
 }: GenerateCertificateOptions) {
-  const fontPath = path.join(process.cwd(), 'public/fonts');
+  const fontPath = await getFontPath(['caveat.ttf', 'inter-variablefont_opsz,wght.ttf']);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   FontLibrary.use({
