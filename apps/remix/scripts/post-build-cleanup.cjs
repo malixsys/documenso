@@ -39,8 +39,6 @@ const nativePackageDirs = [
   'node_modules/playwright-core',
   'node_modules/@playwright',
   'node_modules/@libsql',
-  'node_modules/sharp',
-  'node_modules/@img',
 ];
 
 for (const rel of nativePackageDirs) {
@@ -55,11 +53,5 @@ if (fs.existsSync(playwrightBrowsers)) {
   console.log('Removed playwright browsers');
 }
 
-// Remove sharp vendor prebuilds (large platform-specific binaries)
-const sharpVendor = path.join(root, 'node_modules', 'sharp', 'vendor');
-if (fs.existsSync(sharpVendor)) {
-  fs.rmSync(sharpVendor, { recursive: true, force: true });
-  console.log('Removed sharp vendor');
-}
 
 console.log('Post-build cleanup complete');
