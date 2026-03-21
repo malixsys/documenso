@@ -6,6 +6,7 @@ import Konva from 'konva';
 import 'konva/skia-backend';
 import type { DateTimeFormatOptions } from 'luxon';
 import { DateTime } from 'luxon';
+import fs from 'node:fs';
 import path from 'node:path';
 import type { Canvas } from 'skia-canvas';
 import { FontLibrary } from 'skia-canvas';
@@ -15,7 +16,7 @@ import { P } from 'ts-pattern';
 import { UAParser } from 'ua-parser-js';
 
 import { DOCUMENT_STATUS } from '../../constants/document';
-import { getFontPath } from './get-font-path';
+import { getFontPath, getStaticFilePath } from './get-font-path';
 import { APP_I18N_OPTIONS } from '../../constants/i18n';
 import { RECIPIENT_ROLES_DESCRIPTION } from '../../constants/recipient-roles';
 import { DOCUMENT_AUDIT_LOG_TYPE } from '../../types/document-audit-logs';
@@ -446,7 +447,7 @@ const renderBranding = () => {
 
   const brandingHeight = 16;
 
-  const logoPath = path.join(process.cwd(), 'public/static/logo.png');
+  const logoPath = await getStaticFilePath('static/logo.png');
   const logo = fs.readFileSync(logoPath);
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions

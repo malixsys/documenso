@@ -6,6 +6,7 @@ import type { RecipientRole } from '@prisma/client';
 import Konva from 'konva';
 import 'konva/skia-backend';
 import { DateTime } from 'luxon';
+import fs from 'node:fs';
 import path from 'node:path';
 import type { Canvas } from 'skia-canvas';
 import { FontLibrary } from 'skia-canvas';
@@ -14,7 +15,7 @@ import { UAParser } from 'ua-parser-js';
 import { renderSVG } from 'uqr';
 
 import { NEXT_PUBLIC_WEBAPP_URL } from '../../constants/app';
-import { getFontPath } from './get-font-path';
+import { getFontPath, getStaticFilePath } from './get-font-path';
 import { APP_I18N_OPTIONS } from '../../constants/i18n';
 import {
   RECIPIENT_ROLES_DESCRIPTION,
@@ -580,7 +581,7 @@ const renderBranding = async ({ qrToken, i18n }: { qrToken: string | null; i18n:
     height: brandingHeight,
   });
 
-  const logoPath = path.join(process.cwd(), 'public/static/logo.png');
+  const logoPath = await getStaticFilePath('static/logo.png');
   const logo = fs.readFileSync(logoPath);
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
