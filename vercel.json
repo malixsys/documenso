@@ -1,5 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "fluid": true
+  "fluid": true,
+  "outputFileTracingExcludes": {
+    "*": [
+      "node_modules/@napi-rs/canvas/**",
+      "node_modules/playwright/**",
+      "node_modules/playwright-core/**",
+      "node_modules/@playwright/**",
+      "node_modules/sharp/**",
+      "node_modules/@img/**",
+      "node_modules/@libsql/**",
+      "node_modules/inngest/**"
+    ]
+  }
 }
