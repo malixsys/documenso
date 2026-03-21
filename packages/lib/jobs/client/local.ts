@@ -451,6 +451,9 @@ export class LocalJobProvider extends BaseJobProvider {
 
           return result;
         } catch (err) {
+          const taskError = err instanceof Error ? err.message : String(err);
+          const taskStack = err instanceof Error ? err.stack?.slice(0, 500) : undefined;
+
           task = await prisma.backgroundJobTask.update({
             where: {
               id: task.id,
@@ -461,10 +464,11 @@ export class LocalJobProvider extends BaseJobProvider {
               retried: {
                 increment: 1,
               },
+              result: { _error: taskError, _stack: taskStack },
             },
           });
 
-          console.log(`[JOBS:${task.id}] Task failed`, err);
+          console.error(`[JOBS:${task.id}] Task failed: ${taskError}`, taskStack);
 
           throw new BackgroundTaskFailedError('Task failed');
         }
