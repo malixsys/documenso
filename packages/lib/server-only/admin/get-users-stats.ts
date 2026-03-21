@@ -1,6 +1,9 @@
 import { DateTime } from 'luxon';
 
+import { Prisma } from '@prisma/client';
+
 import { kyselyPrisma, prisma, sql } from '@documenso/prisma';
+import { DB_SCHEMA } from '@documenso/prisma/constants';
 import { SubscriptionStatus, UserSecurityAuditLogType } from '@documenso/prisma/client';
 
 export const getUsersCount = async () => {
@@ -30,14 +33,16 @@ type GetUserWithDocumentMonthlyGrowthQueryResult = Array<{
 }>;
 
 export const getUserWithSignedDocumentMonthlyGrowth = async () => {
+  const s = Prisma.raw(`"${DB_SCHEMA}"`);
+
   const result = await prisma.$queryRaw<GetUserWithDocumentMonthlyGrowthQueryResult>`
       SELECT
         DATE_TRUNC('month', "Envelope"."createdAt") AS "month",
         COUNT(DISTINCT "Envelope"."userId") as "count",
         COUNT(DISTINCT CASE WHEN "Envelope"."status" = 'COMPLETED' THEN "Envelope"."userId" END) as "signed_count"
-      FROM "Envelope"
-      INNER JOIN "Team" ON "Envelope"."teamId" = "Team"."id"
-      INNER JOIN "Organisation" ON "Team"."organisationId" = "Organisation"."id"
+      FROM ${s}."Envelope"
+      INNER JOIN ${s}."Team" ON "Envelope"."teamId" = "Team"."id"
+      INNER JOIN ${s}."Organisation" ON "Team"."organisationId" = "Organisation"."id"
       WHERE "Envelope"."type" = 'DOCUMENT'::"EnvelopeType"
       GROUP BY "month"
       ORDER BY "month" DESC
