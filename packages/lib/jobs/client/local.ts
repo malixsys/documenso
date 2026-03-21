@@ -314,7 +314,10 @@ export class LocalJobProvider extends BaseJobProvider {
           },
         });
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorStack = error instanceof Error ? error.stack : undefined;
         console.log(`[JOBS]: Job ${options.name} failed`, error);
+        console.error(`[JOBS]: Job ${options.name} error detail: ${errorMessage}`, errorStack);
 
         const taskHasExceededRetries = error instanceof BackgroundTaskExceededRetriesError;
         const jobHasExceededRetries =
@@ -330,6 +333,13 @@ export class LocalJobProvider extends BaseJobProvider {
             data: {
               status: BackgroundJobStatus.FAILED,
               completedAt: new Date(),
+              // Store error for debugging since Vercel logs expire quickly
+              payload: {
+                // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+                ...(backgroundJob.payload as Record<string, unknown>),
+                _error: errorMessage,
+                _errorStack: errorStack?.slice(0, 500),
+              },
             },
           });
 

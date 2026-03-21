@@ -1,0 +1,76 @@
+{
+  "mcpServers": {
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com/malixs-projects-4d7ce92b/reference-b2b"
+    },
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com/malixs-projects-4d7ce92b/documenso"
+    },
+    "assistant-ui": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@assistant-ui/mcp-docs-server"],
+      "env": {}
+    },
+    "stripe": {
+      "type": "http",
+      "url": "https://mcp.stripe.com/"
+    },
+    "next-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["next-devtools-mcp@latest"],
+      "env": {}
+    },
+    "md-mmd-pdf": {
+      "command": "node",
+      "args": ["/Users/malix/Temp/mcp-md-mmd-pdf/build/index.js"]
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["chrome-devtools-mcp@latest", "--channel=beta"],
+      "env": {}
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "claude-cortex"]
+    },
+
+    "playwright-record": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "github:korwabs/playwright-record-mcp",
+        "--record-video",
+        "--video-dir",
+        "./recordings"
+      ],
+      "env": {}
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PAT}"
+      }
+    },
+    "supabase": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--read-only",
+        "--project-ref=spyblsdcwnjgcayfaatx",
+        "--access-token",
+        "${SUPABASE_ACCESS_TOKEN}"
+      ],
+      "env": {}
+    }
+  }
+}
