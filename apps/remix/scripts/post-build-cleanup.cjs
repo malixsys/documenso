@@ -44,12 +44,13 @@ removeByPattern(path.join(root, 'node_modules/playwright-core'), /\.(node|exe|dl
 removeByPattern(path.join(root, 'node_modules/@playwright'), /\.(node|exe|dll|so|dylib)$/);
 removeByPattern(path.join(root, 'node_modules/@libsql'), /\.(node|exe|dll|so|dylib)$/);
 
-// Remove non-linux sharp platform packages (Vercel runs linux-x64)
-// Keep @img/sharp-linux-x64 and @img/sharp-libvips-linux-x64
+// Remove non-linux-x64 sharp platform packages (Vercel runs linux-x64)
+// Only remove entries that are platform-specific (contain OS/arch identifiers)
+const platformPattern = /(darwin|win32|linux-arm|linux-s390|linux-ppc|freebsd|android|wasm|musl)/;
 const imgDir = path.join(root, 'node_modules/@img');
 if (fs.existsSync(imgDir)) {
   for (const entry of fs.readdirSync(imgDir, { withFileTypes: true })) {
-    if (entry.isDirectory() && !entry.name.includes('linux-x64')) {
+    if (entry.isDirectory() && platformPattern.test(entry.name) && !entry.name.includes('linux-x64')) {
       const full = path.join(imgDir, entry.name);
       fs.rmSync(full, { recursive: true, force: true });
       console.log('Removed @img/' + entry.name);
