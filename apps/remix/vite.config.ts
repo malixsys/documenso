@@ -77,6 +77,7 @@ export default defineConfig(({ isSsrBuild }) => ({
       'react',
       'react-dom',
       'react-router',
+      '@napi-rs/canvas',
       '@node-rs/bcrypt',
       '@prisma/client',
       '@documenso/tailwind-config',

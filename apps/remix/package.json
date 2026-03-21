@@ -5,7 +5,7 @@
   "scripts": {
     "build": "./.bin/build.sh",
     "build:app": "yarn typecheck && cross-env NODE_ENV=production react-router build",
-    "build:vercel": "cd ../.. && npx prisma generate --schema=packages/prisma/schema.prisma && yarn translate && cd apps/remix && yarn build:app && node -e \"const fs=require('fs');const dirs=['../../node_modules/@napi-rs/canvas','../../node_modules/playwright','../../node_modules/playwright-core','../../node_modules/@playwright','../../node_modules/@libsql'];dirs.forEach(d=>{try{fs.rmSync(d,{recursive:true,force:true});console.log('Removed',d)}catch{}})\"",
+    "build:vercel": "cd ../.. && npx prisma generate --schema=packages/prisma/schema.prisma && yarn translate && cd apps/remix && yarn build:app && node -e \"const fs=require('fs');const dirs=['../../node_modules/playwright','../../node_modules/playwright-core','../../node_modules/@playwright','../../node_modules/@libsql'];dirs.forEach(d=>{try{fs.rmSync(d,{recursive:true,force:true});console.log('Removed',d)}catch{}})\"",
     "build:server": "cross-env NODE_ENV=production rollup -c rollup.config.mjs",
     "dev": "yarn with:env -- react-router dev",
     "dev:billing": "bash .bin/stripe-dev.sh",
