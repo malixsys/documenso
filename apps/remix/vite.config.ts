@@ -82,7 +82,6 @@ export default defineConfig(({ isSsrBuild }) => ({
       '@prisma/client',
       '@documenso/tailwind-config',
       'sharp',
-      'skia-canvas',
       'playwright',
       'playwright-core',
       '@playwright/browser-chromium',
