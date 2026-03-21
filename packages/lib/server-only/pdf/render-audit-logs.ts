@@ -442,7 +442,7 @@ const renderRow = (options: RenderRowOptions) => {
   return rowGroup;
 };
 
-const renderBranding = () => {
+const renderBranding = async () => {
   const branding = new Konva.Group();
 
   const brandingHeight = 16;
@@ -616,7 +616,7 @@ export async function renderAuditLogs({
     overviewCard,
   });
 
-  const brandingGroup = renderBranding();
+  const brandingGroup = await renderBranding();
   const brandingRect = brandingGroup.getClientRect();
   const brandingTopPadding = 24;
 
