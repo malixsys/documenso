@@ -77,14 +77,10 @@ export default defineConfig(({ isSsrBuild }) => ({
       'react',
       'react-dom',
       'react-router',
-      '@napi-rs/canvas',
       '@node-rs/bcrypt',
       '@prisma/client',
       '@documenso/tailwind-config',
       'sharp',
-      'playwright',
-      'playwright-core',
-      '@playwright/browser-chromium',
     ],
   },
   optimizeDeps: {
@@ -92,12 +88,8 @@ export default defineConfig(({ isSsrBuild }) => ({
     include: ['prop-types', 'file-selector', 'attr-accept'],
     exclude: [
       'node_modules',
-      '@napi-rs/canvas',
       '@node-rs/bcrypt',
       'sharp',
-      'playwright',
-      'playwright-core',
-      '@playwright/browser-chromium',
     ],
   },
   resolve: {
